@@ -19,7 +19,7 @@ if opcao == 1:
         categoria = input (f"\nDigite a categoria: ")
         valor = float(input (f"\nDigite o valor pago: "))
         biblioteca[i] = titulo, autor, categoria, valor
-    arquivo = open ("biblioteca.csv", "a")  #o parâmetro <a> permite que sejam inseridos dados sem apagar os anteriores
+    arquivo = open ("testes.csv", "a")  #o parâmetro <a> permite que sejam inseridos dados sem apagar os anteriores
     
     #o trecho a seguir salva os dados coletados na etapa anterior em um arquivo .csv (separados por vírgula)
     
@@ -37,7 +37,7 @@ elif opcao == 2:
 
 
     #o trecho a seguir imprime o conteúdo do arquivo .csv
-    arquivo = open ("biblioteca.csv", "r")
+    arquivo = open ("testes.csv", "r")
     for i in arquivo.readlines():
         print (f"\n{i}")
          
