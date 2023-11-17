@@ -61,7 +61,7 @@ def gastos_totais(gastos):
 
 print (f"\n### CRUD DE LIVROS ###\n")
 
-opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] [5] Excluir ou [6] Sair: "))
+opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar [4] [5] Excluir ou [6] Sair: "))
 if opcao == 1:
     quantidade = int(input ("Quantos livros deseja adicionar? "))
     adicionar(quantidade)
