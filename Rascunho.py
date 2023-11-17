@@ -50,7 +50,7 @@ def gastos_totais(gastos):
             return gastos.append(float(i))
         except ValueError:
             pass    
-    arquivo = open ("CRUD.txt", "r")
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     arquivo_formatado=arquivo.read()
     arquivo_formatado=arquivo_formatado.split()
     for i in arquivo_formatado:
