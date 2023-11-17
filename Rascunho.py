@@ -21,7 +21,8 @@ def adicionar(q):
 
 #Função para consultar livros
 def consultar():
- categoria = input("digite a categoria que você deseja visualizar: ")    
+    categoria = input("digite a categoria que você deseja visualizar: ").captalize()
+    return categoria
 
 
 
@@ -51,6 +52,13 @@ if opcao == 1:
     adicionar(quantidade)
 
 elif opcao == 2:
+    categoria_consultada = consultar()
+    arquivo = open("CROUD.txt", "r")
+    for linha in arquivo:
+            if categoria_consultada in linha:
+                    print(linha.strip())
+    arquivo.close()
+
 
 
 elif opcao == 3:
