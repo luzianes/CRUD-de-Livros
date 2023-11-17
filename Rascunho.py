@@ -53,7 +53,7 @@ if opcao == 1:
 
 elif opcao == 2:
     categoria_consultada = consultar()
-    arquivo = open("CROUD.txt", "r")
+    arquivo = open("CRUD.txt", "r")
     for linha in arquivo:
             if categoria_consultada in linha:
                     print(linha.strip())
