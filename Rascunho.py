@@ -35,6 +35,8 @@ def consultar():
 def excluir ():
     titulo = input("Digite o nome do livro a ser excluído: ")
 
+    
+
 
 
 #Função para calcular o total de dinheiro gasto
@@ -51,26 +53,40 @@ if opcao == 1:
     quantidade = int(input ("Quantos livros deseja adicionar? "))
     adicionar(quantidade)
 
-elif opcao == 2:
-    categoria_consultada = consultar()
-    arquivo = open("CRUD.txt", "r")
-    for linha in arquivo:
-            if categoria_consultada in linha:
-                    print(linha.strip())
+#elif opcao == 2:
+
+
+#elif opcao == 3:
+
+
+
+#elif opcao == 4:
+
+    #excluir () 
+
+elif opcao == 5:
+    #Verifica a quantidade de livros cadastrados a partir da quantidade de linhas no arquivo TXT
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    total_livros = sum(1 for linha in arquivo)
+    print(total_livros) 
+
+
+    #Imprime o conteúdo do arquivo TXT
+    arquivo = open ("CRUD.txt", "r")
+    print(arquivo.read())
+
+
+
+
+
+
     arquivo.close()
 
 
 
-elif opcao == 3:
-
-
-
-elif opcao == 4:
-
-    excluir () 
-
-elif opcao == 5:
-
+else:
+    print ("Opção inválida! Digite um número de 1 a 5.")
+    
 
 
 
