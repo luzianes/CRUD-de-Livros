@@ -20,7 +20,8 @@ def adicionar(q):
     arquivo.close()
 
 #Função para consultar livros
-
+def consultar():
+ categoria = input("digite a categoria que você deseja visualizar: ")    
 
 
 
