@@ -1,2 +1,3 @@
 ('Teste', 'Testando', 'Testarei', '2.00')
 ('Titulo', 'Autor', 'Categoria', '1.00')
+('Novo', 'Novo', 'Nova', '1.00')
