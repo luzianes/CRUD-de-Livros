@@ -53,7 +53,15 @@ if opcao == 1:
     quantidade = int(input ("Quantos livros deseja adicionar? "))
     adicionar(quantidade)
 
-#elif opcao == 2:
+elif opcao == 2:
+    categoria_consultada = consultar()
+    arquivo = open("CROUD.txt", "r")
+    for linha in arquivo:
+            if categoria_consultada in linha:
+                    print(linha.strip())
+    arquivo.close()
+
+
 
 
 #elif opcao == 3:
