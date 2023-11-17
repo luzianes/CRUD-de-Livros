@@ -3,7 +3,7 @@ os.system ("cls")
 
 biblioteca = {}
 
-#Função para adicionar livro no arquivo CRUD.txt
+#Função para adicionar livros no arquivo CRUD.txt
 def adicionar(q):
     for i in range (q):
         #Coleta dados dos livros e alimenta em um dicionário
@@ -30,4 +30,20 @@ if opcao == 1:
 
 
 
+#Função para consultar livros
+
+
+
+
+#Função para alterar livros
+
+
+
+
+#Função para excluir livros
+def excluir 
+
+
+
+#Função para calcular o total de dinheiro gasto
 
