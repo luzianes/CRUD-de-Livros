@@ -21,7 +21,8 @@ def adicionar(q):
 
 #Função para consultar livros
 def consultar():
- categoria = input("digite a categoria que você deseja visualizar: ")    
+    categoria = input("Digite a categoria que você deseja visualizar: ")
+    return categoria
 
 
 
@@ -72,7 +73,10 @@ elif opcao == 5:
 
     #Imprime o conteúdo do arquivo TXT
     arquivo = open ("CRUD.txt", "r")
-    print(arquivo.read())
+    print (arquivo.read())
+    livro = arquivo.readline(0)
+    print(livro)
+
 
 
 
