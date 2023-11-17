@@ -89,22 +89,22 @@ elif opcao == 6:
     #Verifica a quantidade de livros cadastrados a partir da quantidade de linhas no arquivo TXT
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     total_livros = sum(1 for linha in arquivo)
-    print(total_livros) 
+    print(total_livros)
+    arquivo.close() 
 
 
     #Imprime o conteúdo do arquivo TXT
-    arquivo = open ("CRUD.txt", "r")
-    print (arquivo.read())
-    livro = arquivo.readline(0)
-    print(livro)
-
-
-
-
-
-
-
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    print(arquivo.read())
     arquivo.close()
+
+    #Imprime uma linha no arquivo
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    texto = arquivo.read()
+
+    livro = []
+    
+
 
 
 
