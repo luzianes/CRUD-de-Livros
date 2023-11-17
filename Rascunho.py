@@ -35,6 +35,7 @@ def consultar():
 #Função para excluir livros
 def excluir ():
     titulo = input("Digite o nome do livro a ser excluído: ")
+    return titulo
 
     
 
@@ -62,13 +63,12 @@ print (f"\n### CRUD DE LIVROS ###\n")
 
 opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] [5] Excluir ou [6] Sair: "))
 if opcao == 1:
-
     quantidade = int(input ("Quantos livros deseja adicionar? "))
     adicionar(quantidade)
 
 elif opcao == 2:
     categoria_consultada = consultar()
-    arquivo = open("CROUD.txt", "r")
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     for linha in arquivo:
             if categoria_consultada in linha:
                     print(linha.strip())
@@ -85,23 +85,5 @@ elif opcao == 4:
 
     #excluir () 
 
-elif opcao == 6:
+#elif opcao == 6:
     #Verifica a quantidade de livros cadastrados a partir da quantidade de linhas no arquivo TXT
-    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
-    total_livros = sum(1 for linha in arquivo)
-    print(total_livros) 
-
-
-    #Imprime o conteúdo do arquivo TXT
-    arquivo = open ("CRUD.txt", "r")
-    print (arquivo.read())
-    livro = arquivo.readline(0)
-    print(livro)
-
-
-
-
-
-
-
-    arquivo.close()
