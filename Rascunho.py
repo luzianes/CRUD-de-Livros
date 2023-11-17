@@ -21,8 +21,7 @@ def adicionar(q):
 
 #Função para consultar livros
 def consultar():
-    categoria = input("digite a categoria que você deseja visualizar: ").captalize()
-    return categoria
+ categoria = input("digite a categoria que você deseja visualizar: ")    
 
 
 
