@@ -13,16 +13,16 @@ def adicionar(q):
         categoria = input (f"Digite a categoria: ").capitalize()
         valor = input (f"Digite o valor pago: ").capitalize()
         biblioteca[i] = titulo, autor, categoria, valor
-    arquivo = open ("CRUD.txt", "a")  #O parâmetro <a> permite que sejam inseridos dados sem apagar os anteriores
+    arquivo = open ("CRUD.txt", "a", encoding='utf-8')  #O parâmetro <a> permite que sejam inseridos dados sem apagar os anteriores
 
     #O trecho a seguir salva os dados coletados na etapa anterior no arquivo CRUD.txt
     for i in range (q):
-        arquivo.write (f"\t{' '.join(biblioteca[i])}\n")
+        arquivo.write (f"{', '.join(biblioteca[i])}\n")
     arquivo.close()
 
 #Função para consultar livros
 def consultar():
-    categoria = input("Digite a categoria que você deseja visualizar: ")
+    categoria = input("Digite a categoria que você deseja visualizar: ").capitalize()
     return categoria
 
 
@@ -50,7 +50,7 @@ def gastos_totais(gastos):
             return gastos.append(float(i))
         except ValueError:
             pass    
-    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    arquivo = open ("CRUD.txt", "r", encoding='utf-8')
     arquivo_formatado=arquivo.read()
     arquivo_formatado=arquivo_formatado.split()
     for i in arquivo_formatado:
@@ -61,7 +61,7 @@ def gastos_totais(gastos):
 
 print (f"\n### CRUD DE LIVROS ###\n")
 
-opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar [4] [5] Excluir ou [6] Sair: "))
+opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] Gastos Totais [5] Excluir ou [6] Sair: "))
 if opcao == 1:
     quantidade = int(input ("Quantos livros deseja adicionar? "))
     adicionar(quantidade)
