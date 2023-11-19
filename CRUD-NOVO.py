@@ -23,9 +23,15 @@ def adicionar(q):
 
 ####    Função para consultar livros    ###
 def consultar():
-    categoria_consultada = input("digite a categoria de livros que que você deseja visualizar: ").upper()
+    categoria_consultada = input("digite a categoria de livros que que você deseja visualizar ou digite [Tudo] para ver todos os livros agrupados em categoria: ").upper()
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
-    for linha in arquivo:
+    if categoria_consultada == "TUDO":
+        linhas_do_arquivo = list(arquivo)
+        linhas_ordenadas = sorted(linhas_do_arquivo, key=lambda linha: linha.strip().split(",")[2])
+        for linha in linhas_ordenadas:
+                print(linha.strip())
+    else:
+        for linha in arquivo:
             if categoria_consultada in linha:
                     print(linha.strip())
     arquivo.close()
