@@ -33,18 +33,26 @@ def consultar():
     consulta=[]
     valor_consultado=[]
     #Input do usuário para verificar a categoria desejada
-    categoria_consultada = input("Digite a categoria de livros que que você deseja visualizar: ").upper()
+    categoria_consultada = input("Digite a categoria de livros que que você deseja visualizar ou escreva [TUDO] para imprimir todas as categorias que você possui: ").upper()
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
-    for linha in arquivo:
-        if categoria_consultada in linha:
-        #Chega quais linhas possuem essa categoria
+    if categoria_consultada == "TUDO":
+        linhas_do_arquivo = list(arquivo)
+        linhas_ordenadas = sorted(linhas_do_arquivo, key=lambda linha: linha.strip().split(',')[2])
+        for linha in linhas_ordenadas:
             consulta.append(linha.strip())
-            #Soma os valores atribuidos a essa categoria
             numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
             valor_consultado.extend(numeros_na_linha)
+    else:
+        for linha in arquivo:
+            if categoria_consultada in linha:
+        #Chega quais linhas possuem essa categoria
+                consulta.append(linha.strip())
+            #Soma os valores atribuidos a essa categoria
+                numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
+                valor_consultado.extend(numeros_na_linha)
     arquivo.close()
     #Se a quantidade de valores atribuidos forem maior que 0, mostra os valores e os livros dessa categoria
-    if len(consulta) > 0:
+    if len(consulta) > 0 or "TUDO":
         return (f"{' //// '.join(consulta)} \nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
     else:
         return "Categoria inválida ou sem valor atribuido"
