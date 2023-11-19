@@ -162,62 +162,58 @@ def favoritos():
     arquivo2 = open ("CRUD2.txt", "r+", encoding = 'utf-8')
     #Oferece as opções de adcionar, remover ou consultar os livros favoritados
     opcoes_favoritos=int(input("O que você deseja fazer com os favoritos? Digite [1] para adicionar livro aos favotitos ou [2] para remover um livro do favoritos ou [3] para consultá-lo: "))
-    #Opção de adicionar um ou mais livros do arsenal nos favoritos
+    #Opção de adicionar livro da bilbioteca aos favoritos
     if opcoes_favoritos == 1:
-        quantidade_favoritos_adicionar=int(input("Quantos livros você deseja adicionar aos favoritos? "))
-        for i in range(quantidade_favoritos_adicionar):
-            titulof=input("Digite o título do livro que você deseja adicionar como favorito: ").upper()
-            favoritado = "N"
-            #Armazena nos vetores <texto> e <texto2> as linhas dos arquivo TXTs
-            texto = arquivo.readlines()
-            texto2 = arquivo2.readlines()
-            livro = ""
-            #Procura o titulo digitado <titulof> no arsenal de livros
-            for j in range (len(texto)):
-                for k in range (0, texto[j].find(",")):
-                    #Armazena na variável <livro> apenas o título do livro na linha i
-                    livro = livro + texto[j][k]
-                    #Se o título <titulof> que quer adicionar for igual ao da variável <livro>, pega as informações da obra do CRUD, para adicionar aos favoritos (CRUD2)
-                    #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-                if titulof == livro:
-                    #Adiciona todas informações do livro no vetor dos favoritos
-                    texto2.append(texto[j])
-                    #Apaga todas informações do CRUD2 e reescreve com a obra adicionada
-                    arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-                    for l in range (len(texto2)):
-                        arquivo2.write (f"{texto2[l]}")
-                    favoritado = "S"
-                    print ("Livro adicionado aos favoritos com sucesso!")
-                else:
-                    livro = ""
-                    continue
-        if favoritado == "N":
-            print ("Livro não encontrado")
-    #Opção de remover um ou mais livros do arsenal nos favoritos
+        titulof=input("Digite o título do livro que você deseja adicionar como favorito: ").upper()
+        favoritado = "N"
+        #Armazena nos vetores <texto> e <texto2> as linhas dos arquivo TXTs
+        texto = arquivo.readlines()
+        texto2 = arquivo2.readlines()
+        livro = ""
+        #Procura o titulo digitado <titulof> no arsenal de livros
+        for j in range (len(texto)):
+            for k in range (0, texto[j].find(",")):
+                #Armazena na variável <livro> apenas o título do livro na linha i
+                livro = livro + texto[j][k]
+                #Se o título <titulof> que quer adicionar for igual ao da variável <livro>, pega as informações da obra do CRUD, para adicionar aos favoritos (CRUD2)
+                #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
+            if titulof == livro:
+                #Adiciona todas informações do livro no vetor dos favoritos
+                texto2.append(texto[j])
+                #Apaga todas informações do CRUD2 e reescreve com a obra adicionada
+                arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
+                for l in range (len(texto2)):
+                    arquivo2.write (f"{texto2[l]}")
+                favoritado = "S"
+                print ("Livro adicionado aos favoritos com sucesso!")
+            else:
+                livro = ""
+                continue
+            if favoritado == "N":
+                print ("Livro não encontrado")
+    #Opção de remover livro da bilbioteca nos favoritos
     elif opcoes_favoritos == 2:
-        quantidade_favoritos_remover=int(input("Quantos livros você deseja remover dos favoritos? "))
-        for i in range(quantidade_favoritos_remover):
-            titulof=input("Digite o título do livro que você deseja remover dos favorito: ").upper()
-            excluido_favoritos = "N"
-            #Armazena no vetor <texto2> as linhas do arquivo TXT
-            texto2 = arquivo2.readlines()
-            livro = ""
-            for i in range (len(texto2)):
-                for j in range (0, texto2[i].find(",")):
-                    #Armazena na variável <livro> apenas o título do livro na linha i
-                    livro = livro + texto2[i][j]
-                    #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
-                    #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-                if titulof == livro:
-                    del texto2[i]
-                    arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-                    for k in range (len(texto2)):
-                        arquivo2.write (f"{texto2[k]}")
-                    excluido_favoritos = "S"
-                    print ("Livro excluído com sucesso!")
-                else:
-                    livro = ""
-                    continue
+        titulof=input("Digite o título do livro que você deseja remover dos favorito: ").upper()
+        excluido_favoritos = "N"
+        #Armazena no vetor <texto2> as linhas do arquivo TXT
+        texto2 = arquivo2.readlines()
+        livro = ""
+        for i in range (len(texto2)):
+            for j in range (0, texto2[i].find(",")):
+                #Armazena na variável <livro> apenas o título do livro na linha i
+                livro = livro + texto2[i][j]
+                #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
+                #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
+            if titulof == livro:
+                del texto2[i]
+                arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
+                for k in range (len(texto2)):
+                    arquivo2.write (f"{texto2[k]}")
+                excluido_favoritos = "S"
+                print ("Livro excluído com sucesso!")
+            else:
+                livro = ""
+                continue
             if excluido_favoritos == "N":
                 print ("Livro não encontrado")
     
@@ -230,7 +226,6 @@ def favoritos():
     
     arquivo.close()
     arquivo2.close()
-
 
 print (f"\n### CRUD DE LIVROS ###\n")
 
