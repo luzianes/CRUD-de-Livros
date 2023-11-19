@@ -109,32 +109,78 @@ def alterar():
 ####    Função para excluir livros      ####
 def excluir ():
     arquivo = open ("CRUD.txt", "r+", encoding = "utf8")
-    #Armazena na variável <tituloe> o nome do título a ser excluído
-    tituloe = input ("Digite o título que deseja excluir: ").upper()
+    
+    #Armazena na variável <tituloe> o nome do título a ser excluído e "N" na variável <excluido> (N = não excluído)
+    tituloe = input ("\nDigite o título que deseja excluir: ").upper()
     excluido = "N"
+    
     #Armazena no vetor <texto> as linhas do arquivo TXT
     texto = arquivo.readlines()
     livro = ""
-    for i in range (len(texto)-1):
-        for j in range (0, texto[i].find(",")):
-            #Armazena na variável <livro> apenas o título do livro na linha i
-            livro = livro + texto[i][j]
-        #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
-        #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-        if tituloe == livro:
-            print (texto[i].find(","))
-            del texto[i]
-            arquivo = open ("CRUD.txt", "w", encoding = "utf8")
-            for i in range (len(texto)):
-                arquivo.write (f"{texto[i]}")
-            excluido = "S"
-            print ("Livro excluído com sucesso!")
+    a_excluir = []
+
+    #Armazena na variável <livro> apenas o título do livro na linha i          
+    #Se o título que quer excluir estiver contido em <livro>, alimenta o vetor <a_excluir>    
+    #Se não, esvazia a string <livro> e continua o loop para o próximo título
+    for i in range (len(texto)):
+        for j in range (0, texto[i].find( ",")):
+            livro = livro + texto[i][j]       
+        
+        if tituloe in livro:
+            a_excluir.append(livro)
+            livro = ""
+            
         else:
             livro = ""
             continue
-    if excluido == "N":
-        print ("Livro não encontrado")
+             
+    #Continua o processamento a depender da existência (ou não) de mais de um título existente com o termo pesquisado
+    if len(a_excluir) == 0:
+        print ("\nLivro não encontrado!")
+        return
+    elif len(a_excluir) > 1:
+        #Se tiver mais de um livro com o termo digitado, vai exibir os livros que têm o mesmo termo e pedir para escolher qual vai excluir
+        print ("\nExiste mais de um livro para o termo pesquisado:")
+        for i in range (len(a_excluir)):
+            print (f"{[i]} {a_excluir[i]}")
+        escolhido = input ("\nDigite o código do livro que deseja excluir: ")
+        tituloe = a_excluir[int(escolhido)]
+        
+    elif len(a_excluir) == 1:        
+        tituloe = a_excluir[0]
+
+    #Percorre <texto> para encontrar o título a ser excluído
+    for i in range (len(texto)):
+        livro = ""
+        for j in range (0, texto[i].find( ",")):
+            #Armazena na variável <livro> apenas o título do livro na linha i
+            livro = livro + texto[i][j]  
+     
+        if tituloe in livro:
+            livro = tituloe
+            break
+        else:
+            continue
+    #Confirma se quer realmente excluir o livro a partir do título informado
+    #Apaga o arquivo e reescreve sem o título excluído
+    resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
+    if resposta == "S":
+        del texto[i]
+        arquivo = open ("CRUD.txt", "w", encoding = "utf8")
+        for i in range (len(texto)):
+            arquivo.write (f"{texto[i]}")
+        excluido = "S"
+        print ("\nLivro excluído com sucesso!")
+    elif resposta == "N":
+        return
+    else:
+        print ("\nOpção inválida!")         
+            
+    if livro == "" :
+        print ("\nLivro não encontrado")
+
     arquivo.close()
+
      
 
 ####    Função para calcular o total de dinheiro gasto  ####
@@ -227,25 +273,31 @@ def favoritos():
     arquivo.close()
     arquivo2.close()
 
-print (f"\n### CRUD DE LIVROS ###\n")
-
-opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] Gastos Totais [5] Excluir, [6] Favoritos ou [7] Sair: "))
-if opcao == 1:
-    quantidade = int(input ("Quantos livros deseja adicionar? "))
-    adicionar(quantidade)
-
-elif opcao == 2:
-    consultar()
-
-elif opcao == 3:
-    alterar()
-
-elif opcao == 4:
-    print (gastos_totais(gastos))
-
-elif opcao == 5:
-    excluir()
+while True:
     
-elif opcao == 6:
-    favoritos()
+
+    print (f"\n### CRUD DE LIVROS ###\n")
+
+    opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] Gastos Totais [5] Excluir, [6] Favoritos ou [7] Sair: "))
+    if opcao == 1:
+        quantidade = int(input ("Quantos livros deseja adicionar? "))
+        adicionar(quantidade)
+
+    elif opcao == 2:
+        consultar()
+
+    elif opcao == 3:
+        alterar()
+
+    elif opcao == 4:
+        print (gastos_totais(gastos))
+
+    elif opcao == 5:
+        excluir()
+    
+    elif opcao == 6:
+        favoritos()
+    
+    elif opcao == 7:
+        break
     
