@@ -27,8 +27,80 @@ def consultar():
 
 
 ####    Função para alterar livros      ####
+def alterar():
+    arquivo = open ("CRUD.txt", "r+", encoding = "utf8")
+    #Armazena na variável <tituloa> o nome do título a ser alterado
+    tituloa = input ("Digite o título que deseja alterar: ").upper()
+    alterado = "N"
+    #Armazena no vetor <texto> as linhas do arquivo TXT
+    texto = arquivo.readlines()
+    livro = ""
+    vetor_alteracao=[]
+    for i in range (len(texto)):
+        for j in range (0, texto[i].find(",")):
+            #Armazena na variável <livro> apenas o título do livro na linha i
+            livro = livro + texto[i][j]
+        #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
+        #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
+        if tituloa == livro:
+            #Cria um novo vetor <novo_texto>, para não modificar o vetor texto original, que será utilizado posteriormente
+            novo_texto=texto
+            #Coloca a linha da obra a ser modificada em um vetor, para uma melhor manipulação
+            vetor_alteracao=novo_texto[i].split(", ")
+            #Pergunta que informação da obra deve ser alterada
+            resposta_alteracao=int(input("Qual mudança você quer realizar? Digite [1] se você quiser alterar o título, [2] se você quiser alterar o autor, [3] se você quiser alterar a categoria, [4] se você quiser alterar o preço ou [5] para alterar tudo: "))
+            
+            #Apenas altera o título, através de seu índice no vetor
+            if resposta_alteracao == 1:
+                subst_titulo=input("Qual o novo título que você gostaria de atribuir à obra? ")
+                vetor_alteracao[0] = subst_titulo.upper()
+
+            #Apenas altera o autor, através de seu índice no vetor                    
+            elif resposta_alteracao == 2:                
+                subst_autor=input("Qual o nome do autor que você gostaria de atribuir à obra? ")
+                vetor_alteracao[1] = subst_autor.upper()
+            
+            #Apenas altera a categoria, através de seu índice no vetor
+            elif resposta_alteracao == 3:
+                subst_categoria=input("Em qual categoria você deseja inserir à obra? ")
+                vetor_alteracao[2] = subst_categoria.upper()
+
+            #Apenas altera o preço, através de seu índice no vetor
+            elif resposta_alteracao == 4:                
+                subst_preco=input("Qual preço você gostaria de atribuir à obra? ")
+                vetor_alteracao[3] = subst_preco.upper()+"\n"
+
+            #Altera tudo, cada categoria através de seu índice no vetor, respectivamente
+            elif resposta_alteracao == 5:
+                subst_titulo=input("Qual o novo título que você gostaria de atribuir à obra? ")
+                vetor_alteracao[0] = subst_titulo.upper()
+                subst_autor=input("Qual o nome do autor que você gostaria de atribuir à obra? ")
+                vetor_alteracao[1] = subst_autor.upper()
+                subst_categoria=input("Em qual categoria você deseja inserir à obra? ")
+                vetor_alteracao[2] = subst_categoria.upper()
+                subst_preco=input("Qual preço você gostaria de atribuir à obra? ")
+                vetor_alteracao[3] = subst_preco.upper()+"\n"
+
+            #Deleta toda informação antiga da obra, afinal, ela já está gravada em um vetor, que pode ser livremente manipulado
+            del texto[i]
+            #Transforma a linha alterada de um vetor para uma string separada por vírgulas
+            vetor_alteracao=", ".join(vetor_alteracao)
+            #Insere no texto, na mesma posição da antiga informação da obra, a descrição atualizada
+            texto.insert(i, vetor_alteracao)
+            arquivo = open ("CRUD.txt", "w", encoding = "utf8")
+            for i in range(len(texto)):
+                #Escreve-se todas as linhas de novo (incluindo a modificada)
+                arquivo.write (f"{texto[i]}")
+            alterado = "S"
+            print ("Livro alterado com sucesso!")
+        else:
+            livro = ""
+            continue
+    if alterado == "N":
+        print ("Livro não encontrado")
 
 
+    arquivo.close()
 
 
 ####    Função para excluir livros      ####
@@ -102,7 +174,8 @@ elif opcao == 2:
                     print(linha.strip())
     arquivo.close()
 
-
+elif opcao == 3:
+    alterar()
 
 elif opcao == 4:
     print (gastos_totais(gastos))
