@@ -22,8 +22,12 @@ def adicionar(q):
 
 ####    Função para consultar livros    ###
 def consultar():
-    categoria = input("Digite a categoria que você deseja visualizar: ").upper()
-    return categoria
+    categoria_consultada = input("digite a categoria de livros que que você deseja visualizar: ").upper()
+    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    for linha in arquivo:
+            if categoria_consultada in linha:
+                    print(linha.strip())
+    arquivo.close()
 
 
 ####    Função para alterar livros      ####
@@ -167,12 +171,7 @@ if opcao == 1:
     adicionar(quantidade)
 
 elif opcao == 2:
-    categoria_consultada = consultar()
-    arquivo = open ("CRUD.txt", "r", encoding = "utf8")
-    for linha in arquivo:
-            if categoria_consultada in linha:
-                    print(linha.strip())
-    arquivo.close()
+    consultar()
 
 elif opcao == 3:
     alterar()
