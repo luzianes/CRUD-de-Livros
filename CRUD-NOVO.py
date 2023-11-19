@@ -45,7 +45,7 @@ def consultar():
     else:
         for linha in arquivo:
             if categoria_consultada in linha:
-        #Chega quais linhas possuem essa categoria
+        #Checa quais linhas possuem essa categoria
                 consulta.append(linha.strip())
             #Soma os valores atribuidos a essa categoria
                 numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
@@ -53,7 +53,9 @@ def consultar():
     arquivo.close()
     #Se a quantidade de valores atribuidos forem maior que 0, mostra os valores e os livros dessa categoria
     if len(consulta) > 0 or "TUDO":
-        return (f"{' //// '.join(consulta)} \nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
+        consulta.sort()
+        consulta_formatada='\n'.join(consulta)
+        return (f"{consulta_formatada} \nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
     else:
         return "Categoria inválida ou sem valor atribuido"
 
@@ -319,7 +321,7 @@ while True:
         alterar()
 
     elif opcao == 4:
-        print ('\n'.join(gastos_totais(gastos)))
+        print (gastos_totais(gastos))
 
     elif opcao == 5:
         excluir()
