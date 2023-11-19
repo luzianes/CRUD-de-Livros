@@ -20,22 +20,34 @@ def adicionar(q):
         arquivo.write (f"{', '.join(biblioteca[i])}\n")
     arquivo.close()
 
-
 ####    Função para consultar livros    ###
 def consultar():
-    categoria_consultada = input("digite a categoria de livros que que você deseja visualizar ou digite [Tudo] para ver todos os livros agrupados em categoria: ").upper()
+    def isnum(i):
+    #Checa se o elemento i é um número
+        try:
+            float(i)
+            return valor_consultado.append(float(i))
+        except ValueError:
+    #Se o elemento não for um nûmero, ele é ignorado
+            pass   
+    consulta=[]
+    valor_consultado=[]
+    #Input do usuário para verificar a categoria desejada
+    categoria_consultada = input("Digite a categoria de livros que que você deseja visualizar: ").upper()
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
-    if categoria_consultada == "TUDO":
-        linhas_do_arquivo = list(arquivo)
-        linhas_ordenadas = sorted(linhas_do_arquivo, key=lambda linha: linha.strip().split(",")[2])
-        for linha in linhas_ordenadas:
-                print(linha.strip())
-    else:
-        for linha in arquivo:
-            if categoria_consultada in linha:
-                    print(linha.strip())
+    for linha in arquivo:
+        if categoria_consultada in linha:
+        #Chega quais linhas possuem essa categoria
+            consulta.append(linha.strip())
+            #Soma os valores atribuidos a essa categoria
+            numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
+            valor_consultado.extend(numeros_na_linha)
     arquivo.close()
-
+    #Se a quantidade de valores atribuidos forem maior que 0, mostra os valores e os livros dessa categoria
+    if len(consulta) > 0:
+        return (f"{' //// '.join(consulta)} \nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
+    else:
+        return "Categoria inválida ou sem valor atribuido"
 
 ####    Função para alterar livros      ####
 def alterar():
@@ -187,24 +199,27 @@ def excluir ():
 
     arquivo.close()
 
-     
-
 ####    Função para calcular o total de dinheiro gasto  ####
 def gastos_totais(gastos):
     def isnum(i):
-    #checa se o elemento i é um número
+    #Checa se o elemento i é um número
         try:
             float(i)
             return gastos.append(float(i))
         except ValueError:
+    #Se o elemento não for um nûmero, ele é ignorado
             pass    
     arquivo = open ("CRUD.txt", "r", encoding='utf-8')
     arquivo_formatado=arquivo.read()
     arquivo_formatado=arquivo_formatado.split()
     for i in arquivo_formatado:
+    #Checa em todos os elementos se há numeros
         isnum(i)
     arquivo.close()
-    return (f"Foram gastos R$ {sum(gastos)} no total")
+    #Soma todos os valores encontrados
+    total_gasto=sum(gastos)
+    #Retorna a soma desses números
+    return (f"Foram gastos R$ {total_gasto:.2f} no total")
 
 
 ####    Função para manipular os favoritos  ####
@@ -213,10 +228,10 @@ def favoritos():
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     arquivo2 = open ("CRUD2.txt", "r+", encoding = 'utf-8')
     #Oferece as opções de adcionar, remover ou consultar os livros favoritados
-    opcoes_favoritos=int(input("O que você deseja fazer com os favoritos? Digite [1] para adicionar livro aos favotitos ou [2] para remover um livro do favoritos ou [3] para consultá-lo: "))
+    opcoes_favoritos=int(input("\nO que você deseja fazer com os favoritos? Digite [1] para adicionar livro aos favoritos ou [2] para remover um livro do favoritos ou [3] para consultá-lo: "))
     #Opção de adicionar livro da bilbioteca aos favoritos
     if opcoes_favoritos == 1:
-        titulof=input("Digite o título do livro que você deseja adicionar como favorito: ").upper()
+        titulof=input("\nDigite o título do livro que você deseja adicionar como favorito: ").upper()
         favoritado = "N"
         #Armazena nos vetores <texto> e <texto2> as linhas dos arquivo TXTs
         texto = arquivo.readlines()
@@ -284,19 +299,19 @@ while True:
 
     print (f"\n### CRUD DE LIVROS ###\n")
 
-    opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar,[4] Gastos Totais [5] Excluir, [6] Favoritos ou [7] Sair: "))
+    opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar ,[4] Gastos Totais, [5] Excluir, [6] Favoritos ou [7] Sair: "))
     if opcao == 1:
         quantidade = int(input ("Quantos livros deseja adicionar? "))
         adicionar(quantidade)
 
     elif opcao == 2:
-        consultar()
+        print(consultar())
 
     elif opcao == 3:
         alterar()
 
     elif opcao == 4:
-        print (gastos_totais(gastos))
+        print ('\n'.join(gastos_totais(gastos)))
 
     elif opcao == 5:
         excluir()
