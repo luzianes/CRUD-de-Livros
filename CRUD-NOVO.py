@@ -44,7 +44,7 @@ def alterar():
         for j in range (0, texto[i].find(",")):
             #Armazena na variável <livro> apenas o título do livro na linha i
             livro = livro + texto[i][j]
-        #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
+        #Se o título que quer alterar for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo com ele alterado   
         #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
         if tituloa == livro:
             #Cria um novo vetor <novo_texto>, para não modificar o vetor texto original, que será utilizado posteriormente
