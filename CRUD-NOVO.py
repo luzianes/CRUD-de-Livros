@@ -50,7 +50,7 @@ def consultar():
                     categorias.append(categoria)
                     livros_por_categoria.append([])
 
-                livros_por_categoria[categorias.index(categoria)].append(titulo)
+                livros_por_categoria[categorias.index(categoria)].append(", ".join(valores))
                 numeros_na_linha = [float(s) for s in valor.split() if isnum(s)]
                 valor_consultado.extend(numeros_na_linha)
    
