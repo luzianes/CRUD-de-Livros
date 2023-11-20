@@ -30,27 +30,42 @@ def consultar():
         except ValueError:
     #Se o elemento não for um nûmero, ele é ignorado
             pass   
-    consulta=[]
+    categorias=[]
+    consulta = []
+    livros_por_categoria = []
     valor_consultado=[]
     #Input do usuário para verificar a categoria desejada
     categoria_consultada = input("Digite a categoria de livros que que você deseja visualizar ou escreva [TUDO] para imprimir todas as categorias que você possui: ").upper()
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     if categoria_consultada == "TUDO":
-        linhas_do_arquivo = list(arquivo)
-        linhas_ordenadas = sorted(linhas_do_arquivo, key=lambda linha: linha.strip().split(',')[2])
-        for linha in linhas_ordenadas:
-            consulta.append(linha.strip())
-            numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
-            valor_consultado.extend(numeros_na_linha)
+        for linha in arquivo:
+            valores = linha.strip().split(", ")
+            if len(valores) == 4:
+                titulo, autor, categoria, valor = valores
+                if categoria not in categorias:
+                    categorias.append(categoria)
+                    livros_por_categoria.append([])
+
+                livros_por_categoria[categorias.index(categoria)].append(titulo)
+                numeros_na_linha = [float(s) for s in valor.split() if isnum(s)]
+                valor_consultado.extend(numeros_na_linha)
+   
     else:
         for linha in arquivo:
             if categoria_consultada in linha:
-        #Checa quais linhas possuem essa categoria
-                consulta.append(linha.strip())
-            #Soma os valores atribuidos a essa categoria
-                numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
-                valor_consultado.extend(numeros_na_linha)
-    arquivo.close()
+                    consulta.append(linha.strip())
+                    numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
+                    valor_consultado.extend(numeros_na_linha)
+    arquivo.close
+
+    if categorias:
+        categorias_ordenadas = sorted(categorias)
+        for categoria in categorias_ordenadas:
+            print(f"\n{categoria}:\n")
+            livros_na_categoria_ordenados = sorted(livros_por_categoria[categorias.index(categoria)])
+            for livro in livros_na_categoria_ordenados:
+                print(livro)
+    
     #Se a quantidade de valores atribuidos forem maior que 0, mostra os valores e os livros dessa categoria
     if len(consulta) > 0 or "TUDO":
         consulta.sort()
