@@ -74,7 +74,7 @@ def consultar():
     if len(consulta) > 0 or "TUDO":
         consulta.sort()
         consulta_formatada='\n'.join(consulta)
-        return (f"{consulta_formatada} \nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
+        return (f"{consulta_formatada} \n\nO valor total da categoria consultada é R$ {sum(valor_consultado):.2f}")
     else:
         return "Categoria inválida ou sem valor atribuido"
     
