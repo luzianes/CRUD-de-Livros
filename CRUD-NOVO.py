@@ -318,32 +318,36 @@ def favoritos():
     
     arquivo.close()
     arquivo2.close()
+try:
+    while True:
+        
 
-while True:
-    
+        print (f"\n### CRUD DE LIVROS ###\n")
 
-    print (f"\n### CRUD DE LIVROS ###\n")
+        opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar ,[4] Gastos Totais, [5] Excluir, [6] Favoritos ou [7] Sair: "))
+        if opcao == 1:
+            quantidade = int(input ("Quantos livros deseja adicionar? "))
+            adicionar(quantidade)
 
-    opcao = int(input ("Escolha a opção desejada: [1] Adicionar, [2] Consultar, [3] Alterar ,[4] Gastos Totais, [5] Excluir, [6] Favoritos ou [7] Sair: "))
-    if opcao == 1:
-        quantidade = int(input ("Quantos livros deseja adicionar? "))
-        adicionar(quantidade)
+        elif opcao == 2:
+            print(consultar())
 
-    elif opcao == 2:
-        print(consultar())
+        elif opcao == 3:
+            alterar()
 
-    elif opcao == 3:
-        alterar()
+        elif opcao == 4:
+            print (gastos_totais(gastos))
 
-    elif opcao == 4:
-        print (gastos_totais(gastos))
-
-    elif opcao == 5:
-        excluir()
-    
-    elif opcao == 6:
-        favoritos()
-    
-    elif opcao == 7:
-        break
+        elif opcao == 5:
+            excluir()
+        
+        elif opcao == 6:
+            favoritos()
+        
+        elif opcao == 7:
+            break
+        else:
+            print("por favor insira um numero de 1-7")
+except ValueError:
+    print("Erro de valor!")
     
