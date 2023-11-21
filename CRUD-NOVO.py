@@ -389,5 +389,9 @@ while True:
     except ValueError:
         print("\nErro de valor! Por favor, insira um numero.")
         continue
+
+    except FileNotFoundError:
+        print("\nArquivo ou diretório não existe.")
+        continue
     
     
