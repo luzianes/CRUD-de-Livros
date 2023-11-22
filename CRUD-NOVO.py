@@ -162,7 +162,6 @@ def alterar():
             livro = livro + texto[i][j]  
      
         if tituloa == livro:
-            livro = tituloa
             resposta = input (f"\nDeseja realmente alterar o livro -{livro}- [S] ou [N]? ").upper()
             if resposta == "S":
                 #Cria um novo vetor <novo_texto>, para não modificar o vetor texto original, que será utilizado posteriormente
@@ -319,70 +318,178 @@ def favoritos():
     #Abrir os dois TXT, o do arsenal de livros da biblioteca e dos favoritos
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
     arquivo2 = open ("CRUD2.txt", "r+", encoding = 'utf-8')
-    #Oferece as opções de adcionar, remover ou consultar os livros favoritados
+    #Oferece as opções de adicionar, remover ou consultar os livros favoritados
     opcoes_favoritos=int(input("\nO que você deseja fazer com os favoritos? Digite [1] para adicionar livro aos favoritos ou [2] para remover um livro do favoritos ou [3] para consultá-lo: "))
+    
     #Opção de adicionar livro da bilbioteca aos favoritos
     if opcoes_favoritos == 1:
+        #Armazena na variável <titulof> o nome do título a ser adicionado e "N" na variável <favoritado> (N = não favoritado)
         titulof=input("\nDigite o título do livro que você deseja adicionar como favorito: ").upper()
         favoritado = "N"
+
         #Armazena nos vetores <texto> e <texto2> as linhas dos arquivo TXTs
         texto = arquivo.readlines()
         texto2 = arquivo2.readlines()
         livro = ""
-        #Procura o titulo digitado <titulof> no arsenal de livros
-        for j in range (len(texto)):
-            for k in range (0, texto[j].find(",")):
-                #Armazena na variável <livro> apenas o título do livro na linha i
-                livro = livro + texto[j][k]
-                #Se o título <titulof> que quer adicionar for igual ao da variável <livro>, pega as informações da obra do CRUD, para adicionar aos favoritos (CRUD2)
-                #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-            if titulof == livro:
-                #Adiciona todas informações do livro no vetor dos favoritos
-                texto2.append(texto[j])
-                #Apaga todas informações do CRUD2 e reescreve com a obra adicionada
-                arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-                for l in range (len(texto2)):
-                    arquivo2.write (f"{texto2[l]}")
-                favoritado = "S"
-                print ("\nLivro adicionado aos favoritos com sucesso!")
+        repetido = 'N'
+        a_adicionar = []
+        
+        #Armazena na variável <livro> apenas o título do livro na linha i          
+        #Se o título que quer adicionar estiver contido em <livro>, alimenta o vetor <a_adicionar>    
+        #Se não, esvazia a string <livro> e continua o loop para o próximo título
+        for i in range (len(texto)):
+            for j in range (0, texto[i].find( ",")):
+                livro = livro + texto[i][j]       
+        
+            if titulof in livro:
+                a_adicionar.append(livro)
+                livro = ""
+            
             else:
                 livro = ""
                 continue
-            if favoritado == "N":
-                print ("\nLivro não encontrado")
+
+        ##Continua o processamento a depender da existência (ou não) de mais de um título existente com o termo pesquisado
+        if len(a_adicionar) == 0:
+            print ("\nLivro não encontrado em sua biblioteca!")
+            return
+        
+        elif len(a_adicionar) > 1:
+            #Se tiver mais de um livro com o termo digitado, vai exibir os livros que têm o mesmo termo e pedir para escolher qual vai favoritar
+            print ("\nExiste mais de um livro para o termo pesquisado:")
+            for i in range (len(a_adicionar)):
+                print (f"{[i]} {a_adicionar[i]}")
+            escolhido = int(input ("\nDigite o código do livro que deseja favoritar: "))
+            if escolhido >= 0 and escolhido <= len(a_adicionar):
+                titulof = a_adicionar[(escolhido)]
+            else:
+                print ("\nOpção inválida!")
+        
+        elif len(a_adicionar) == 1:        
+            titulof = a_adicionar[0]
+
+        #Percorre <texto> para encontrar o título a ser favoritado
+        for i in range (len(texto)):
+            livro = ""
+            for j in range (0, texto[i].find( ",")):
+                #Armazena na variável <livro> apenas o título do livro na linha i
+                livro = livro + texto[i][j]  
+     
+            if titulof == livro:
+                #Confirma se quer realmente favoritar o livro a partir do título informado
+                #Apaga o arquivo de favoritos e reescreve com o título favoritado
+                resposta = input (f"\nDeseja realmente favoritar o livro -{livro}- [S] ou [N]? ").upper()
+                if resposta == "S":
+                #Percorre <texto2> para ver se o livro já está como favoritos
+                    for k in range (len(texto2)):
+                        if titulof in texto2[k]:
+                            repetido = 'S'
+                    
+                    if repetido == 'S':
+                        print("\nVocê já adicionou esse livro nos favoritos")
+                                            
+                    else:
+                        #Apaga todas informações do CRUD2 e reescreve com a obra adicionada
+                        arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
+                        for l in range (len(texto2)):
+                            arquivo2.write (f"{texto2[l]}")
+                            print ("\nLivro adicionado aos favoritos com sucesso!")
+                            break
+                    favoritado = "S"
+                
+                elif resposta == "N":
+                    return
+                
+            else:
+                continue
+          
+        if favoritado != "S":
+            print ("\nLivro não encontrado")
+    
     #Opção de remover livro da bilbioteca nos favoritos
     elif opcoes_favoritos == 2:
+        #Armazena na variável <titulof> o nome do título a ser excluído e "N" na variável <excluido_favoritos> (N = não excluído)
         titulof=input("\nDigite o título do livro que você deseja remover dos favorito: ").upper()
         excluido_favoritos = "N"
+
         #Armazena no vetor <texto2> as linhas do arquivo TXT
         texto2 = arquivo2.readlines()
         livro = ""
+        a_excluir = []
+
+        #Armazena na variável <livro> apenas o título do livro na linha i          
+        #Se o título que quer excluir estiver contido em <livro>, alimenta o vetor <a_excluir>    
+        #Se não, esvazia a string <livro> e continua o loop para o próximo título
         for i in range (len(texto2)):
-            for j in range (0, texto2[i].find(",")):
-                #Armazena na variável <livro> apenas o título do livro na linha i
-                livro = livro + texto2[i][j]
-                #Se o título que quer excluir for igual ao da variável <livro>, apaga do vetor <texto> (índice i) e reescreve o arquivo sem ele    
-                #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-            if titulof == livro:
-                del texto2[i]
-                arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-                for k in range (len(texto2)):
-                    arquivo2.write (f"{texto2[k]}")
-                excluido_favoritos = "S"
-                print ("\nLivro excluído com sucesso!")
+            for j in range (0, texto2[i].find( ",")):
+                livro = livro + texto2[i][j]       
+        
+            if titulof in livro:
+                a_excluir.append(livro)
+                livro = ""
+            
             else:
                 livro = ""
                 continue
-            if excluido_favoritos == "N":
-                print ("\nLivro não encontrado")
+             
+        #Continua o processamento a depender da existência (ou não) de mais de um título existente com o termo pesquisado
+        if len(a_excluir) == 0:
+            print ("\nLivro não encontrado!")
+            return
     
+        elif len(a_excluir) > 1:
+            #Se tiver mais de um livro com o termo digitado, vai exibir os livros que têm o mesmo termo e pedir para escolher qual vai excluir dos favoritos
+            print ("\nExiste mais de um livro para o termo pesquisado:")
+            for i in range (len(a_excluir)):
+                print (f"{[i]} {a_excluir[i]}")
+            escolhido = input ("\nDigite o código do livro que deseja excluir: ")
+            titulof = a_excluir[int(escolhido)]
+        
+        elif len(a_excluir) == 1:        
+            titulof = a_excluir[0]
+
+        #Percorre <texto> para encontrar o título a ser excluído dos favoritos
+        for i in range (len(texto2)):
+            livro = ""
+            for j in range (0, texto2[i].find( ",")):
+                #Armazena na variável <livro> apenas o título do livro na linha i
+                livro = livro + texto2[i][j]  
+     
+            if titulof in livro:
+                livro = titulof
+                break
+            else:
+                continue
+    
+        #Confirma se quer realmente excluir o livro a partir do título informado
+        #Apaga o arquivo e reescreve sem o título excluído
+        resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
+    
+        if resposta == "S":
+            del texto2[i]
+            arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
+            for i in range (len(texto2)):
+                arquivo2.write (f"{texto2[i]}")
+            excluido = "S"
+            print ("\nLivro excluído com sucesso!")
+    
+        elif resposta == "N":
+            return
+    
+        else:
+            print ("\nOpção inválida!")     
+
     #Opção de consultar os livros dos favoritos
     elif opcoes_favoritos == 3:
         arquivo2 = open ("CRUD2.txt", "r", encoding = "utf8")
         print()
+        
         for linha in arquivo2:
             print(linha.strip())
     
+    else:
+        print("\nNúmero inválido. Por favor, insira um número entre 1-3")
+
     arquivo.close()
     arquivo2.close()
 
