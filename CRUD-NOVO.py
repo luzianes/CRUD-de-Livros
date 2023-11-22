@@ -33,14 +33,17 @@ def consultar():
         except ValueError:
     #Se o elemento não for um nûmero, ele é ignorado
             pass   
+    
     categorias=[]
     consulta = []
     livros_por_categoria = []
     valor_consultado=[]
+    
     #Input do usuário para verificar a categoria desejada
     categoria_consultada = input("\nDigite a categoria de livros que que você deseja visualizar ou escreva [TUDO] para imprimir todas as categorias que você possui: ").upper()
     print()
     arquivo = open ("CRUD.txt", "r", encoding = "utf8")
+    
     if categoria_consultada == "TUDO":
         for linha in arquivo:
             valores = linha.strip().split(", ")
@@ -60,6 +63,7 @@ def consultar():
                     consulta.append(linha.strip())
                     numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
                     valor_consultado.extend(numeros_na_linha)
+    
     arquivo.close
 
     if categorias:
@@ -89,9 +93,11 @@ def gastos_totais(gastos):
         except ValueError:
     #Se o elemento não for um nûmero, ele é ignorado
             pass    
+    
     arquivo = open ("CRUD.txt", "r", encoding='utf-8')
     arquivo_formatado=arquivo.read()
     arquivo_formatado=arquivo_formatado.split()
+    
     for i in arquivo_formatado:
     #Checa em todos os elementos se há numeros
         isnum(i)
@@ -105,81 +111,130 @@ def gastos_totais(gastos):
 ####    Função para alterar livros      ####
 def alterar():
     arquivo = open ("CRUD.txt", "r+", encoding = "utf8")
-    #Armazena na variável <tituloa> o nome do título a ser alterado
+
+    #Armazena na variável <tituloa> o nome do título a ser alterado e "N" na variável <alterado> (N = não alterado)
     tituloa = input ("\nDigite o título que deseja alterar: ").upper()
     alterado = "N"
+
     #Armazena no vetor <texto> as linhas do arquivo TXT
     texto = arquivo.readlines()
     livro = ""
     vetor_alteracao=[]
+
+    #Armazena na variável <livro> apenas o título do livro na linha i          
+    #Se o título que quer alterar estiver contido em <livro>, alimenta o vetor <vetor_alteracao>    
+    #Se não, esvazia a string <livro> e continua o loop para o próximo título
     for i in range (len(texto)):
         for j in range (0, texto[i].find(",")):
-            #Armazena na variável <livro> apenas o título do livro na linha i
             livro = livro + texto[i][j]
-        #Se o título que quer alterar for igual ao da variável <livro>, reescreve o arquivo com ele alterado    
-        #Se não for igual, esvazia a string <livro> e continua o loop para o próximo título
-        if tituloa == livro:
-            #Cria um novo vetor <novo_texto>, para não modificar o vetor texto original, que será utilizado posteriormente
-            novo_texto=texto
-            #Coloca a linha da obra a ser modificada em um vetor, para uma melhor manipulação
-            vetor_alteracao=novo_texto[i].split(", ")
-            #Pergunta que informação da obra deve ser alterada
-            resposta_alteracao=int(input("\nQual mudança você quer realizar? Digite [1] se você quiser alterar o título, [2] se você quiser alterar o autor, [3] se você quiser alterar a categoria, [4] se você quiser alterar o preço ou [5] para alterar tudo: "))
-            if resposta_alteracao >= 1 and resposta_alteracao <= 5:
-                #Apenas altera o título, através de seu índice no vetor
-                if resposta_alteracao == 1:
-                    subst_titulo=input("\nQual o novo título que você gostaria de atribuir à obra? ")
-                    vetor_alteracao[0] = subst_titulo.upper()
+        
+        if tituloa in livro:
+            vetor_alteracao.append(livro)
+            livro = ""
 
-                #Apenas altera o autor, através de seu índice no vetor                    
-                elif resposta_alteracao == 2:                
-                    subst_autor=input("\nQual o nome do autor que você gostaria de atribuir à obra? ")
-                    vetor_alteracao[1] = subst_autor.upper()
-            
-                #Apenas altera a categoria, através de seu índice no vetor
-                elif resposta_alteracao == 3:
-                    subst_categoria=input("\nEm qual categoria você deseja inserir à obra? ")
-                    vetor_alteracao[2] = subst_categoria.upper()
-
-                #Apenas altera o preço, através de seu índice no vetor
-                elif resposta_alteracao == 4:                
-                    subst_preco=input("\nQual preço você gostaria de atribuir à obra? ")
-                    vetor_alteracao[3] = subst_preco.upper()+"\n"
-
-                #Altera tudo, cada categoria através de seu índice no vetor, respectivamente
-                elif resposta_alteracao == 5:
-                    subst_titulo=input("\nQual o novo título que você gostaria de atribuir à obra? ")
-                    vetor_alteracao[0] = subst_titulo.upper()
-                    subst_autor=input("\nQual o nome do autor que você gostaria de atribuir à obra? ")
-                    vetor_alteracao[1] = subst_autor.upper()
-                    subst_categoria=input("\nEm qual categoria você deseja inserir à obra? ")
-                    vetor_alteracao[2] = subst_categoria.upper()
-                    subst_preco=input("\nQual preço você gostaria de atribuir à obra? ")
-                    vetor_alteracao[3] = subst_preco.upper()+"\n"
-
-                #Deleta toda informação antiga da obra, afinal, ela já está gravada em um vetor, que pode ser livremente manipulado
-                del texto[i]
-                #Transforma a linha alterada de um vetor para uma string separada por vírgulas
-                vetor_alteracao=", ".join(vetor_alteracao)
-                #Insere no texto, na mesma posição da antiga informação da obra, a descrição atualizada
-                texto.insert(i, vetor_alteracao)
-                arquivo = open ("CRUD.txt", "w", encoding = "utf8")
-                for i in range(len(texto)):
-                    #Escreve-se todas as linhas de novo (incluindo a modificada)
-                    arquivo.write (f"{texto[i]}")
-                alterado = "S"
-                print ("\nLivro alterado com sucesso!")
-                #Se o número não estiver entre 1 e 5, printa essa mensagem. O alterado vira "S" para não rodar a mensagem de livro não encontrado.
-            else:
-                print("\nNúmero inválido. Por favor, insira um número entre 1-5")
-                alterado = "S"
         else:
             livro = ""
             continue
+        
+    #Continua o processamento a depender da existência (ou não) de mais de um título existente com o termo pesquisado
+    if len(vetor_alteracao) == 0:
+        print ("\nLivro não encontrado!")
+        return
+    elif len(vetor_alteracao) > 1:
+        #Se tiver mais de um livro com o termo digitado, vai exibir os livros que têm o mesmo termo e pedir para escolher qual vai alterar
+        print ("\nExiste mais de um livro para o termo pesquisado:")
+        for i in range (len(vetor_alteracao)):
+            print (f"{[i]} {vetor_alteracao[i]}")
+        escolhido = int(input ("\nDigite o código do livro que deseja excluir: "))
+        if escolhido >= 0 and escolhido <= len(vetor_alteracao):
+            tituloa = vetor_alteracao[(escolhido)]
+        else:
+            print ("\nOpção inválida!")
+        
+    elif len(vetor_alteracao) == 1:      
+        tituloa = vetor_alteracao[0]
+            
+    #Percorre <texto> para encontrar o título a ser alterado
+    for i in range (len(texto)):
+        livro = ""
+        for j in range (0, texto[i].find( ",")):
+            #Armazena na variável <livro> apenas o título do livro na linha i
+            livro = livro + texto[i][j]  
+     
+        if tituloa == livro:
+            livro = tituloa
+            resposta = input (f"\nDeseja realmente alterar o livro -{livro}- [S] ou [N]? ").upper()
+            if resposta == "S":
+                #Cria um novo vetor <novo_texto>, para não modificar o vetor texto original, que será utilizado posteriormente
+                novo_texto=texto
+                #Esvazia o veror_alteracao e coloca a linha da obra a ser modificada em um vetor, para uma melhor manipulação
+                vetor_alteracao=[]
+                vetor_alteracao=novo_texto[i].split(", ")
+                #Pergunta que informação da obra deve ser alterada
+                resposta_alteracao=int(input("\nQual mudança você quer realizar? Digite [1] se você quiser alterar o título, [2] se você quiser alterar o autor, [3] se você quiser alterar a categoria, [4] se você quiser alterar o preço ou [5] para alterar tudo: "))
+                if resposta_alteracao >= 1 and resposta_alteracao <= 5:
+                    #Apenas altera o título, através de seu índice no vetor
+                    if resposta_alteracao == 1:
+                        subst_titulo=input("\nQual o novo título que você gostaria de atribuir à obra? ")
+                        vetor_alteracao[0] = subst_titulo.upper()
+
+                    #Apenas altera o autor, através de seu índice no vetor                    
+                    elif resposta_alteracao == 2:                
+                        subst_autor=input("\nQual o nome do autor que você gostaria de atribuir à obra? ")
+                        vetor_alteracao[1] = subst_autor.upper()
+            
+                    #Apenas altera a categoria, através de seu índice no vetor
+                    elif resposta_alteracao == 3:
+                        subst_categoria=input("\nEm qual categoria você deseja inserir à obra? ")
+                        vetor_alteracao[2] = subst_categoria.upper()
+
+                    #Apenas altera o preço, através de seu índice no vetor
+                    elif resposta_alteracao == 4:                
+                        subst_preco=input("\nQual preço você gostaria de atribuir à obra? ")
+                        vetor_alteracao[3] = subst_preco.upper()+"\n"
+
+                    #Altera tudo, cada categoria através de seu índice no vetor, respectivamente
+                    elif resposta_alteracao == 5:
+                        subst_titulo=input("\nQual o novo título que você gostaria de atribuir à obra? ")
+                        vetor_alteracao[0] = subst_titulo.upper()
+                        subst_autor=input("\nQual o nome do autor que você gostaria de atribuir à obra? ")
+                        vetor_alteracao[1] = subst_autor.upper()
+                        subst_categoria=input("\nEm qual categoria você deseja inserir à obra? ")
+                        vetor_alteracao[2] = subst_categoria.upper()
+                        subst_preco=input("\nQual preço você gostaria de atribuir à obra? ")
+                        vetor_alteracao[3] = subst_preco.upper()+"\n"
+
+                    #Deleta a informação da linha i
+                    del texto[i]
+                    #Transforma a linha alterada de um vetor para uma string separada por vírgulas
+                    vetor_alteracao=", ".join(vetor_alteracao)
+                    #Insere no texto, na mesma posição da antiga informação da obra, a descrição atualizada
+                    texto.insert(i, vetor_alteracao)
+                    arquivo = open ("CRUD.txt", "w", encoding = "utf8")
+                    for i in range(len(texto)):
+                        #Escreve-se todas as linhas de novo (incluindo a modificada)
+                        arquivo.write (f"{texto[i]}")
+                    alterado = "S"
+                    print ("\nLivro alterado com sucesso!")
+                    break
+
+                    #Se o número não estiver entre 1 e 5, printa essa mensagem. O alterado vira "S" para não rodar a mensagem de livro não encontrado.
+                else:
+                    print("\nNúmero inválido. Por favor, insira um número entre 1-5")
+                    alterado = "S"
+                    continue
+            
+            elif resposta == "N":
+                return
+        else:
+            continue       
+        
     if alterado == "N":
         print ("\nLivro não encontrado")
+    else:
+        print ("\nOpção inválida!")
     arquivo.close()
-
+          
 
 ####    Função para excluir livros      ####
 def excluir ():
@@ -213,6 +268,7 @@ def excluir ():
     if len(a_excluir) == 0:
         print ("\nLivro não encontrado!")
         return
+    
     elif len(a_excluir) > 1:
         #Se tiver mais de um livro com o termo digitado, vai exibir os livros que têm o mesmo termo e pedir para escolher qual vai excluir
         print ("\nExiste mais de um livro para o termo pesquisado:")
@@ -236,9 +292,11 @@ def excluir ():
             break
         else:
             continue
+    
     #Confirma se quer realmente excluir o livro a partir do título informado
     #Apaga o arquivo e reescreve sem o título excluído
     resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
+    
     if resposta == "S":
         del texto[i]
         arquivo = open ("CRUD.txt", "w", encoding = "utf8")
@@ -246,14 +304,13 @@ def excluir ():
             arquivo.write (f"{texto[i]}")
         excluido = "S"
         print ("\nLivro excluído com sucesso!")
+    
     elif resposta == "N":
         return
+    
     else:
         print ("\nOpção inválida!")         
-            
-    if livro == "" :
-        print ("\nLivro não encontrado")
-
+    
     arquivo.close()
 
 
@@ -338,7 +395,7 @@ while True:
 
         opcao = int(input ("\nEscolha a opção desejada: [1] Adicionar, [2] Consultar Biblioteca ou Gastos Totais, [3] Alterar , [4] Excluir, [5] Favoritos ou [6] Sair: "))
         
-        if opcao >= 1 and opcao <= 7:
+        if opcao >= 1 and opcao <= 6:
                     
             if opcao == 1:
                 resposta = 'S'
@@ -383,7 +440,7 @@ while True:
                 break
 
         else:
-            print("\nPor favor, insira um numero de 1-7")
+            print("\nPor favor, insira um numero de 1-6")
             continue
         
     except ValueError:
@@ -393,5 +450,3 @@ while True:
     except FileNotFoundError:
         print("\nArquivo ou diretório não existe.")
         continue
-    
-    
