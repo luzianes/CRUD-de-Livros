@@ -146,7 +146,7 @@ def alterar():
         for i in range (len(vetor_alteracao)):
             print (f"{[i]} {vetor_alteracao[i]}")
         escolhido = int(input ("\nDigite o código do livro que deseja excluir: "))
-        if escolhido >= 0 and escolhido <= len(vetor_alteracao):
+        if escolhido >= 0 and escolhido <= (len(vetor_alteracao)-1):
             tituloa = vetor_alteracao[(escolhido)]
         else:
             print ("\nOpção inválida!")
@@ -273,8 +273,12 @@ def excluir ():
         print ("\nExiste mais de um livro para o termo pesquisado:")
         for i in range (len(a_excluir)):
             print (f"{[i]} {a_excluir[i]}")
-        escolhido = input ("\nDigite o código do livro que deseja excluir: ")
-        tituloe = a_excluir[int(escolhido)]
+        escolhido = int (input ("\nDigite o código do livro que deseja excluir: "))
+        if escolhido >= 0 and escolhido <= (len(a_excluir)-1):
+            tituloe = a_excluir[(escolhido)]
+        
+        else:
+            print ("\nOpção inválida!")
         
     elif len(a_excluir) == 1:        
         tituloe = a_excluir[0]
@@ -286,29 +290,24 @@ def excluir ():
             #Armazena na variável <livro> apenas o título do livro na linha i
             livro = livro + texto[i][j]  
      
-        if tituloe in livro:
-            livro = tituloe
-            break
+        if tituloe == livro:
+            #Confirma se quer realmente excluir o livro a partir do título informado
+            #Apaga o arquivo e reescreve sem o título excluído
+            resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
+    
+            if resposta == "S":
+                del texto[i]
+                arquivo = open ("CRUD.txt", "w", encoding = "utf8")
+                for i in range (len(texto)):
+                    arquivo.write (f"{texto[i]}")
+                excluido = "S"
+                print ("\nLivro excluído com sucesso!")
+                break
+            elif resposta == "N":
+                return
+            
         else:
-            continue
-    
-    #Confirma se quer realmente excluir o livro a partir do título informado
-    #Apaga o arquivo e reescreve sem o título excluído
-    resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
-    
-    if resposta == "S":
-        del texto[i]
-        arquivo = open ("CRUD.txt", "w", encoding = "utf8")
-        for i in range (len(texto)):
-            arquivo.write (f"{texto[i]}")
-        excluido = "S"
-        print ("\nLivro excluído com sucesso!")
-    
-    elif resposta == "N":
-        return
-    
-    else:
-        print ("\nOpção inválida!")         
+            continue     
     
     arquivo.close()
 
@@ -442,42 +441,43 @@ def favoritos():
             print ("\nExiste mais de um livro para o termo pesquisado:")
             for i in range (len(a_excluir)):
                 print (f"{[i]} {a_excluir[i]}")
-            escolhido = input ("\nDigite o código do livro que deseja excluir: ")
-            titulof = a_excluir[int(escolhido)]
+            escolhido = int (input ("\nDigite o código do livro que deseja excluir: "))
+            if escolhido >= 0 and escolhido <= (len(a_excluir)-1):
+                titulof = a_excluir[(escolhido)]
+        
+            else:
+                print ("\nOpção inválida!")
         
         elif len(a_excluir) == 1:        
             titulof = a_excluir[0]
 
-        #Percorre <texto> para encontrar o título a ser excluído dos favoritos
+        #Percorre <texto> para encontrar o título a ser excluído
         for i in range (len(texto2)):
             livro = ""
             for j in range (0, texto2[i].find( ",")):
                 #Armazena na variável <livro> apenas o título do livro na linha i
                 livro = livro + texto2[i][j]  
      
-            if titulof in livro:
-                livro = titulof
-                break
+            if titulof == livro:
+                #Confirma se quer realmente excluir o livro a partir do título informado
+                #Apaga o arquivo e reescreve sem o título excluído
+                resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
+    
+                if resposta == "S":
+                    del texto2[i]
+                    arquivo = open ("CRUD2.txt", "w", encoding = "utf8")
+                    for i in range (len(texto2)):
+                        arquivo2.write (f"{texto2[i]}")
+                    excluido_favoritos = "S"
+                    print ("\nLivro excluído com sucesso!")
+                    break
+            
+                elif resposta == "N":
+                    return
+            
             else:
-                continue
-    
-        #Confirma se quer realmente excluir o livro a partir do título informado
-        #Apaga o arquivo e reescreve sem o título excluído
-        resposta = input (f"\nDeseja realmente excluir o livro -{livro}- [S] ou [N]? ").upper()
-    
-        if resposta == "S":
-            del texto2[i]
-            arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-            for i in range (len(texto2)):
-                arquivo2.write (f"{texto2[i]}")
-            excluido = "S"
-            print ("\nLivro excluído com sucesso!")
-    
-        elif resposta == "N":
-            return
-    
-        else:
-            print ("\nOpção inválida!")     
+                continue     
+       
 
     #Opção de consultar os livros dos favoritos
     elif opcoes_favoritos == 3:
@@ -557,3 +557,5 @@ while True:
     except FileNotFoundError:
         print("\nArquivo ou diretório não existe.")
         continue
+    
+    
