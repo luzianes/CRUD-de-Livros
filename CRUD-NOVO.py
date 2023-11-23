@@ -330,7 +330,7 @@ def favoritos():
     #Oferece as opções de adicionar, remover ou consultar os livros favoritados
     opcoes_favoritos=int(input("\nO que você deseja fazer com os favoritos? Digite [1] para adicionar livro aos favoritos ou [2] para remover um livro do favoritos ou [3] para consultá-lo: "))
     
-    #Opção de adicionar livro da bilbioteca aos favoritos
+    #Opção de adicionar livro da biblioteca aos favoritos
     if opcoes_favoritos == 1:
         #Armazena na variável <titulof> o nome do título a ser adicionado e "N" na variável <favoritado> (N = não favoritado)
         titulof=input("\nDigite o título do livro que você deseja adicionar como favorito: ").upper()
@@ -418,7 +418,7 @@ def favoritos():
         if favoritado != "S":
             print ("\nLivro não encontrado")
     
-    #Opção de remover livro da bilbioteca nos favoritos
+    #Opção de remover livro da biblioteca nos favoritos
     elif opcoes_favoritos == 2:
         #Armazena na variável <titulof> o nome do título a ser excluído e "N" na variável <excluido_favoritos> (N = não excluído)
         titulof=input("\nDigite o título do livro que você deseja remover dos favorito: ").upper()
@@ -559,11 +559,11 @@ while True:
                 break
 
         else:
-            print("\nPor favor, insira um numero de 1-6")
+            print("\nPor favor, insira um número de 1-6")
             continue
         
     except ValueError:
-        print("\nErro de valor! Por favor, insira um numero.")
+        print("\nErro de valor! Por favor, insira um número.")
         continue
 
     except FileNotFoundError:
