@@ -196,8 +196,7 @@ def alterar():
                         #Apenas altera o preço, através de seu índice no vetor
                         elif resposta_alteracao == 4:                
                             subst_preco=float(input("\nQual preço você gostaria de atribuir à obra? "))
-                            str(subst_preco)
-                            vetor_alteracao[3] = subst_preco.upper()+"\n"
+                            vetor_alteracao[3] = str(subst_preco)+"\n"
 
                         #Altera tudo, cada categoria através de seu índice no vetor, respectivamente
                         elif resposta_alteracao == 5:
@@ -208,8 +207,7 @@ def alterar():
                             subst_categoria=input("\nEm qual categoria você deseja inserir à obra? ")
                             vetor_alteracao[2] = subst_categoria.upper()
                             subst_preco=float(input("\nQual preço você gostaria de atribuir à obra? "))
-                            str(subst_preco)
-                            vetor_alteracao[3] = subst_preco.upper()+"\n"
+                            vetor_alteracao[3] = str(subst_preco)+"\n"
 
                         #Deleta a informação da linha i
                         del texto[i]
