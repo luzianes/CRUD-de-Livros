@@ -67,7 +67,7 @@ def consultar():
                     numeros_na_linha = [float(s) for s in linha.split() if isnum(s)]
                     valor_consultado.extend(numeros_na_linha)
     
-    arquivo.close
+    arquivo.close()
 
     if categorias:
         categorias_ordenadas = sorted(categorias)
@@ -88,6 +88,8 @@ def consultar():
 
 ####    Função para calcular o total de dinheiro gasto  ####
 def gastos_totais(gastos):
+    gastos=[]
+    
     def isnum(i):
     #Checa se o elemento i é um número
         try:
@@ -391,19 +393,22 @@ def favoritos():
                     for k in range (len(texto2)):
                         if titulof in texto2[k]:
                             repetido = 'S'
-                    
+                                                
                     if repetido == 'S':
                         print("\nVocê já adicionou esse livro nos favoritos")
+                        favoritado = "S"
                                             
                     else:
                         #Apaga todas informações do CRUD2 e reescreve com a obra adicionada
-                        arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
-                        for l in range (len(texto2)):
-                            arquivo2.write (f"{texto2[l]}")
-                            print ("\nLivro adicionado aos favoritos com sucesso!")
-                            break
-                    favoritado = "S"
-                
+                        for i in range (len(texto)):
+                            if livro in texto[i]:
+                                adicao = texto[i]
+                        arquivo2 = open ("CRUD2.txt", "a", encoding = "utf8")
+                        arquivo2.write (f"{adicao}")
+                        print ("\nLivro adicionado aos favoritos com sucesso!")
+                        favoritado = "S"
+                        break
+                                    
                 elif resposta == "N":
                     return
                 
@@ -473,7 +478,7 @@ def favoritos():
     
                 if resposta == "S":
                     del texto2[i]
-                    arquivo = open ("CRUD2.txt", "w", encoding = "utf8")
+                    arquivo2 = open ("CRUD2.txt", "w", encoding = "utf8")
                     for i in range (len(texto2)):
                         arquivo2.write (f"{texto2[i]}")
                     excluido_favoritos = "S"
