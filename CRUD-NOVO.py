@@ -150,7 +150,7 @@ def alterar():
             print ("\nExiste mais de um livro para o termo pesquisado:")
             for i in range (len(vetor_alteracao)):
                 print (f"{[i]} {vetor_alteracao[i]}")
-            escolhido = int(input ("\nDigite o código do livro que deseja excluir: "))
+            escolhido = int(input ("\nDigite o código do livro que deseja alterar: "))
             if escolhido >= 0 and escolhido <= (len(vetor_alteracao)-1):
                 tituloa = vetor_alteracao[(escolhido)]
             else:
